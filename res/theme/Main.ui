@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.13 (11/11/2015)" >
+  <component type="MultiList" name="MultiList" cloudDestinationProperty="MultiList" >
+    <layoutConstraint value="Center" />
+    <mapItems>
+      <stringItem key="Line2" value="Scan QR Code Containing XY Data" />
+      <stringItem key="Line1" value="Scan XY Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Scan Absorption XY Data" />
+      <stringItem key="Line1" value="Scan Absorption Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Scan Time Based Data For Reaction Rate Calculation" />
+      <stringItem key="Line1" value="Scan Reaction Rate Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Scan in Titration Data Consisting of pH and Volumn" />
+      <stringItem key="Line1" value="Scan Titration Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Load Past Data Files" />
+      <stringItem key="Line1" value="History" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Configure Application Settings" />
+      <stringItem key="Line1" value="Setup" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Exit Application" />
+      <stringItem key="Line1" value="Exit" />
+    </mapItems>
+  </component>
+</component>
