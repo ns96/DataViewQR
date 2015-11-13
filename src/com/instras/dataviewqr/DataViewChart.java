@@ -10,7 +10,10 @@ import com.codename1.charts.models.XYSeries;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
 import com.codename1.charts.renderers.XYSeriesRenderer;
 import com.codename1.charts.views.PointStyle;
+import com.codename1.io.Util;
+import com.codename1.l10n.L10NManager;
 import com.codename1.ui.Component;
+import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.layouts.BorderLayout;
@@ -24,6 +27,7 @@ import java.util.List;
  * @author nathan
  */
 public abstract class DataViewChart {
+    protected L10NManager formatter = Display.getInstance().getLocalizationManager();
 
     protected XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xyValues) {
         XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
@@ -187,6 +191,25 @@ public abstract class DataViewChart {
        double[] limits = {xmin, xmax, ymin, ymax};
        
        return limits;
+    }
+    /**
+     * This formats a double which would be displayed as scientific values
+     * 
+     * @param value
+     * @param dp the decimal places
+     * @return 
+     */
+    protected String formatScientificNumber(double value, int dp) {
+        // first get the scientific notation format
+        String sn = Double.toString(value);
+        
+        // now split into two parts
+        String[] sa = Util.split(sn, "E");
+        
+        String part1 = formatter.format(Double.parseDouble(sa[0]), dp);
+        String part2 = "E" + sa[1];
+        
+        return part1 + part2;
     }
  
     /**

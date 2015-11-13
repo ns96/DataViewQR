@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.13 (11/11/2015)" >
+<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.14 (11/13/2015)" >
   <component type="MultiList" name="MultiList" cloudDestinationProperty="MultiList" >
     <layoutConstraint value="Center" />
     <mapItems>
@@ -16,8 +16,12 @@
       <stringItem key="Line1" value="Scan Reaction Rate Data" />
     </mapItems>
     <mapItems>
-      <stringItem key="Line2" value="Scan in Titration Data Consisting of pH and Volumn" />
+      <stringItem key="Line2" value="Scan Titration Data Consisting of pH and Volumn" />
       <stringItem key="Line1" value="Scan Titration Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Scan Acid Dissociation Data to Calculate Ka" />
+      <stringItem key="Line1" value="Scan Acid Dissociation Data" />
     </mapItems>
     <mapItems>
       <stringItem key="Line2" value="Load Past Data Files" />

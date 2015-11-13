@@ -10,7 +10,6 @@ import com.codename1.charts.views.CubicLineChart;
 import com.codename1.charts.views.PointStyle;
 import com.codename1.ui.Component;
 import com.codename1.ui.Form;
-import com.codename1.util.MathUtil;
 import com.instras.dataviewqr.model.XYData;
 import com.instras.dataviewqr.ssj.functionfit.SmoothingCubicSpline;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import java.util.List;
  * @author nathan
  */
 public class TitrationChart extends DataViewChart {
-
     private final String title = "Titration Data";
 
     /**

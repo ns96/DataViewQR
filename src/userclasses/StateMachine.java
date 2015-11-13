@@ -11,6 +11,7 @@ import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.list.MultiList;
 import com.codename1.ui.util.Resources;
+import com.instras.dataviewqr.AcidDissociationChart;
 import com.instras.dataviewqr.DataViewChart;
 import com.instras.dataviewqr.TitrationChart;
 import com.instras.dataviewqr.model.XYData;
@@ -53,6 +54,9 @@ public class StateMachine extends StateMachineBase {
         if (itemName.equals("scan titration data")) {
             TitrationChart titrationChart = new TitrationChart();
             getXYDataFromQRScan("titration.tsv", titrationChart);
+        } else if (itemName.equals("scan acid dissociation data")) {
+            AcidDissociationChart acidDissociationChart= new AcidDissociationChart();
+            getXYDataFromQRScan("acid_dissociation.tsv", acidDissociationChart);
         } else if (itemName.equals("exit")) {
             Display.getInstance().exitApplication();
         } else {
