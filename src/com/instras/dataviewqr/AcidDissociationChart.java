@@ -60,7 +60,7 @@ public class AcidDissociationChart extends DataViewChart {
         // construct the chart renderer
         XYMultipleSeriesRenderer renderer = buildRenderer(new int[]{ColorUtil.BLUE}, new PointStyle[]{PointStyle.CIRCLE});
 
-        setChartSettings(renderer, "", "[HA]", "pH", 0, 1, (limits[2] - 0.1), (limits[3] + 0.1),
+        setChartSettings(renderer, "", "[HA]", "pH", (limits[0] - 0.1), (limits[1] + 0.1), (limits[2] - 0.1), (limits[3] + 0.1),
                 ColorUtil.LTGRAY, ColorUtil.LTGRAY);
 
         return getChartComponent(renderer, dataList);
@@ -101,7 +101,7 @@ public class AcidDissociationChart extends DataViewChart {
             data[i][1] = Double.toString(ydata[i]);
             
             double concH = MathUtil.pow(10, -1*Double.parseDouble(data[i][1]));
-            String fdata = formatScientificNumber(concH, 3);
+            String fdata = formatScientificNumber(concH, 5);
             data[i][2] = " " + fdata + " ";
             
             double ka = (concH*concH)/xdata[i];
@@ -111,7 +111,7 @@ public class AcidDissociationChart extends DataViewChart {
             totalKa += ka;
             
             double perIon = (concH/xdata[i])*100;
-            fdata = formatter.format(perIon, 3);
+            fdata = "" + round(perIon, 3);
             data[i][4] = fdata;
         }
         
@@ -125,7 +125,7 @@ public class AcidDissociationChart extends DataViewChart {
         i++;
         data[i][0] = " ";
         
-        // caculate the concentration of Actic acid based on measure pH
+        // caculate the concentration of Acetic acid based on measure pH
         i++;
         double pH = zdata[0];
         double concH = MathUtil.pow(10, -1*pH);
@@ -133,9 +133,9 @@ public class AcidDissociationChart extends DataViewChart {
         
         data[i][0] = " Vinegar ";
         data[i][1] = Double.toString(pH);
-        data[i][2] = formatScientificNumber(concH, 3);
+        data[i][2] = formatScientificNumber(concH, 5);
         data[i][3] = " Molarity ";
-        data[i][4] = formatter.format(concHA, 3) + "M";
+        data[i][4] = round(concHA, 3) + "M";
         
         DefaultTableModel tableModel = new DefaultTableModel(header, data);
         

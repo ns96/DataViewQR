@@ -17,6 +17,7 @@ import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.Tabs;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.util.MathUtil;
 import com.instras.dataviewqr.model.XYData;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.List;
  * @author nathan
  */
 public abstract class DataViewChart {
+
     protected L10NManager formatter = Display.getInstance().getLocalizationManager();
 
     protected XYMultipleSeriesDataset buildDataset(String[] titles, List<double[]> xyValues) {
@@ -34,9 +36,9 @@ public abstract class DataViewChart {
 
         XYSeries series = getXYSeries(titles[0], xyValues.get(0), xyValues.get(1));
         dataset.addSeries(series);
-        
+
         // we may have trend line data as well
-        if(titles.length == 2 && xyValues.size() == 3) {
+        if (titles.length == 2 && xyValues.size() == 3) {
             series = getXYSeries(titles[1], xyValues.get(0), xyValues.get(2));
             dataset.addSeries(series);
         }
@@ -78,19 +80,20 @@ public abstract class DataViewChart {
         renderer.setLegendTextSize(20);
         renderer.setPointSize(10f);
         renderer.setMargins(new int[]{20, 30, 15, 20});
-        
-        for(int i = 0; i < colors.length; i++) {
+
+        for (int i = 0; i < colors.length; i++) {
             renderer.addSeriesRenderer(getXYSeriesRenderer(colors[i], styles[i]));
         }
 
         return renderer;
     }
+
     /**
-     * Get the XYSeriesRenderer 
-     * 
+     * Get the XYSeriesRenderer
+     *
      * @param color
      * @param style
-     * @return 
+     * @return
      */
     protected XYSeriesRenderer getXYSeriesRenderer(int color, PointStyle style) {
         XYSeriesRenderer renderer = new XYSeriesRenderer();
@@ -118,7 +121,7 @@ public abstract class DataViewChart {
     protected void setChartSettings(XYMultipleSeriesRenderer renderer, String title, String xTitle,
             String yTitle, double xMin, double xMax, double yMin, double yMax, int axesColor,
             int labelsColor) {
-        
+
         renderer.setChartTitle(title);
         renderer.setXTitle(xTitle);
         renderer.setYTitle(yTitle);
@@ -139,7 +142,7 @@ public abstract class DataViewChart {
      */
     protected List<double[]> getDataAsList(String[][] xydata) {
         ArrayList<double[]> dataList = new ArrayList<double[]>();
-        
+
         int length = xydata.length - 1;
 
         double[] xdata = new double[length];
@@ -156,62 +159,79 @@ public abstract class DataViewChart {
 
         return dataList;
     }
-    
+
     /**
      * Method to get the x and y min and max
-     * 
+     *
      * @param xdata
      * @param ydata
-     * @return 
+     * @return
      */
     protected double[] getXYLimits(double[] xdata, double[] ydata) {
-       double xmin = 1000000;
-       double xmax = -1000000;
-       double ymin = 1000000;
-       double ymax = -1000000;
-       
-       for(int i = 0; i < xdata.length; i++) {
-           if(xdata[i] < xmin) {
-               xmin = xdata[i];
-           }
-           
-           if(ydata[i] < ymin) {
-               ymin = ydata[i];
-           }
-           
-           if(xdata[i] > xmax) {
-               xmax = xdata[i];
-           }
-           
-           if(ydata[i] > ymax) {
-               ymax = ydata[i];
-           }
-       }
-       
-       double[] limits = {xmin, xmax, ymin, ymax};
-       
-       return limits;
+        double xmin = 1000000;
+        double xmax = -1000000;
+        double ymin = 1000000;
+        double ymax = -1000000;
+
+        for (int i = 0; i < xdata.length; i++) {
+            if (xdata[i] < xmin) {
+                xmin = xdata[i];
+            }
+
+            if (ydata[i] < ymin) {
+                ymin = ydata[i];
+            }
+
+            if (xdata[i] > xmax) {
+                xmax = xdata[i];
+            }
+
+            if (ydata[i] > ymax) {
+                ymax = ydata[i];
+            }
+        }
+
+        double[] limits = {xmin, xmax, ymin, ymax};
+
+        return limits;
     }
+
     /**
      * This formats a double which would be displayed as scientific values
-     * 
+     *
      * @param value
      * @param dp the decimal places
-     * @return 
+     * @return
      */
     protected String formatScientificNumber(double value, int dp) {
         // first get the scientific notation format
         String sn = Double.toString(value);
-        
+
         // now split into two parts
         String[] sa = Util.split(sn, "E");
-        
-        String part1 = formatter.format(Double.parseDouble(sa[0]), dp);
-        String part2 = "E" + sa[1];
-        
+
+        String part1 = "" + round(Double.parseDouble(sa[0]), dp);
+
+        String part2 = "";
+        if (sa.length == 2) {
+            part2 = "E" + sa[1];
+        }
+
         return part1 + part2;
     }
- 
+    
+    /**
+     * This is used to round a double to certain number of decimal places
+     * @param valueToRound
+     * @param numberOfDecimalPlaces
+     * @return 
+     */
+    protected double round(double valueToRound, int numberOfDecimalPlaces) {
+        double multipicationFactor = MathUtil.pow(10, numberOfDecimalPlaces);
+        double interestedInZeroDPs = valueToRound * multipicationFactor;
+        return Math.round(interestedInZeroDPs) / multipicationFactor;
+    }
+
     /**
      * Method to return a form which will contain the chart or multiple charts
      * in a tab

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.14 (11/13/2015)" >
+<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.15 (11/17/2015)" >
   <component type="MultiList" name="MultiList" cloudDestinationProperty="MultiList" >
     <layoutConstraint value="Center" />
     <mapItems>

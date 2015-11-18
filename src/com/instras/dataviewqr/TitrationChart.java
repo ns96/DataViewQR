@@ -136,6 +136,12 @@ public class TitrationChart extends DataViewChart {
         for(int i = 0; i < length; i++) {
             dXdata[i] = xdata[i];
             dYdata[i] = scs.derivative(xdata[i], n);
+            
+            // if we doing second derivative then lets try and get the x point between which 
+            // to look for the equivalence points
+            if(n == 2) {
+                
+            }
         }
         
         ArrayList<double[]> derList = new ArrayList<double[]>();
