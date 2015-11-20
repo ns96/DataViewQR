@@ -8,8 +8,12 @@
       <stringItem key="Line1" value="Scan XY Data" />
     </mapItems>
     <mapItems>
-      <stringItem key="Line2" value="Scan Absorption XY Data" />
+      <stringItem key="Line2" value="Scan Absorption Spectrocopy Data" />
       <stringItem key="Line1" value="Scan Absorption Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Scan Emission Spectrocopy Data" />
+      <stringItem key="Line1" value="Scan Emission Data" />
     </mapItems>
     <mapItems>
       <stringItem key="Line2" value="Scan Time Based Data For Reaction Rate Calculation" />

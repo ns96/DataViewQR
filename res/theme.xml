@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <resource majorVersion="1" minorVersion="6" useXmlUI="false">
+    <data name="absorption.tsv" />
     <data name="acid_dissociation.tsv" />
+    <data name="emission.tsv" />
     <ui name="HistoryForm" />
     <ui name="Main" />
     <theme name="Theme">

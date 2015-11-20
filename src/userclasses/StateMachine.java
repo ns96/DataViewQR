@@ -13,6 +13,7 @@ import com.codename1.ui.list.MultiList;
 import com.codename1.ui.util.Resources;
 import com.instras.dataviewqr.AcidDissociationChart;
 import com.instras.dataviewqr.DataViewChart;
+import com.instras.dataviewqr.SpectroscopyChart;
 import com.instras.dataviewqr.TitrationChart;
 import com.instras.dataviewqr.XYDataChart;
 import com.instras.dataviewqr.model.XYData;
@@ -66,6 +67,12 @@ public class StateMachine extends StateMachineBase {
         if (scanName.equals("Scan XY Data")) {
             XYDataChart xydataChart = new XYDataChart();
             getXYDataFromQRCode(scanName, "xydata.tsv", xydataChart, xyData);
+        } else if (scanName.equals("Scan Absorption Data")) {
+            SpectroscopyChart spectroscopyChart = new SpectroscopyChart();
+            getXYDataFromQRCode(scanName, "absorption.tsv", spectroscopyChart, xyData);
+        } else if (scanName.equals("Scan Emission Data")) {
+            SpectroscopyChart spectroscopyChart = new SpectroscopyChart();
+            getXYDataFromQRCode(scanName, "emission.tsv", spectroscopyChart, xyData);
         } else if (scanName.equals("Scan Titration Data")) {
             TitrationChart titrationChart = new TitrationChart();
             getXYDataFromQRCode(scanName, "titration.tsv", titrationChart, xyData);
