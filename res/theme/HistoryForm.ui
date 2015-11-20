@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="HistoryForm" cloudDestinationProperty="HistoryForm" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="Data History" cyclicFocus="false" >
+  <component type="MultiList" name="historyMultiList" cloudDestinationProperty="MultiList" >
+    <layoutConstraint value="North" />
+    <mapItems>
+      <stringItem key="Line2" value="more..." />
+      <stringItem key="Line1" value="Entry 1" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="more..." />
+      <stringItem key="Line1" value="Entry 2" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="more..." />
+      <stringItem key="Line1" value="Entry 3" />
+    </mapItems>
+  </component>
+</component>
