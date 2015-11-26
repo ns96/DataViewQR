@@ -33,8 +33,11 @@ public abstract class StateMachineBase extends UIBuilder {
 
     public Container startApp(Resources res, String resPath, boolean loadTheme) {
         initVars();
+        UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
         UIBuilder.registerCustomComponent("MultiList", com.codename1.ui.list.MultiList.class);
+        UIBuilder.registerCustomComponent("Dialog", com.codename1.ui.Dialog.class);
         if(loadTheme) {
             if(res == null) {
                 try {
@@ -69,8 +72,11 @@ public abstract class StateMachineBase extends UIBuilder {
 
     public Container createWidget(Resources res, String resPath, boolean loadTheme) {
         initVars();
+        UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
         UIBuilder.registerCustomComponent("MultiList", com.codename1.ui.list.MultiList.class);
+        UIBuilder.registerCustomComponent("Dialog", com.codename1.ui.Dialog.class);
         if(loadTheme) {
             if(res == null) {
                 try {
@@ -132,7 +138,58 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.ui.CheckBox findDemoCheckBox(Component root) {
+        return (com.codename1.ui.CheckBox)findByName("demoCheckBox", root);
+    }
+
+    public com.codename1.ui.CheckBox findDemoCheckBox() {
+        com.codename1.ui.CheckBox cmp = (com.codename1.ui.CheckBox)findByName("demoCheckBox", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.CheckBox)findByName("demoCheckBox", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findOkButton(Component root) {
+        return (com.codename1.ui.Button)findByName("okButton", root);
+    }
+
+    public com.codename1.ui.Button findOkButton() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("okButton", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("okButton", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public static final int COMMAND_SetupDialogOK = 3;
+
+    protected boolean onSetupDialogOK() {
+        return false;
+    }
+
+    protected void processCommand(ActionEvent ev, Command cmd) {
+        switch(cmd.getId()) {
+            case COMMAND_SetupDialogOK:
+                if(onSetupDialogOK()) {
+                    ev.consume();
+                    return;
+                }
+                break;
+
+        }
+        if(ev.getComponent() != null) {
+            handleComponentAction(ev.getComponent(), ev);
+        }
+    }
+
     protected void exitForm(Form f) {
+        if("SetupDialog".equals(f.getName())) {
+            exitSetupDialog(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(f.getName())) {
             exitMain(f);
             aboutToShowThisContainer = null;
@@ -149,6 +206,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void exitSetupDialog(Form f) {
+    }
+
+
     protected void exitMain(Form f) {
     }
 
@@ -158,6 +219,12 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void beforeShow(Form f) {
     aboutToShowThisContainer = f;
+        if("SetupDialog".equals(f.getName())) {
+            beforeSetupDialog(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(f.getName())) {
             beforeMain(f);
             aboutToShowThisContainer = null;
@@ -174,6 +241,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void beforeSetupDialog(Form f) {
+    }
+
+
     protected void beforeMain(Form f) {
     }
 
@@ -183,6 +254,12 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void beforeShowContainer(Container c) {
         aboutToShowThisContainer = c;
+        if("SetupDialog".equals(c.getName())) {
+            beforeContainerSetupDialog(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(c.getName())) {
             beforeContainerMain(c);
             aboutToShowThisContainer = null;
@@ -199,6 +276,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void beforeContainerSetupDialog(Container c) {
+    }
+
+
     protected void beforeContainerMain(Container c) {
     }
 
@@ -207,6 +288,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void postShow(Form f) {
+        if("SetupDialog".equals(f.getName())) {
+            postSetupDialog(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(f.getName())) {
             postMain(f);
             aboutToShowThisContainer = null;
@@ -223,6 +310,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void postSetupDialog(Form f) {
+    }
+
+
     protected void postMain(Form f) {
     }
 
@@ -231,6 +322,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void postShowContainer(Container c) {
+        if("SetupDialog".equals(c.getName())) {
+            postContainerSetupDialog(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(c.getName())) {
             postContainerMain(c);
             aboutToShowThisContainer = null;
@@ -247,6 +344,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void postContainerSetupDialog(Container c) {
+    }
+
+
     protected void postContainerMain(Container c) {
     }
 
@@ -255,6 +356,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void onCreateRoot(String rootName) {
+        if("SetupDialog".equals(rootName)) {
+            onCreateSetupDialog();
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(rootName)) {
             onCreateMain();
             aboutToShowThisContainer = null;
@@ -271,6 +378,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void onCreateSetupDialog() {
+    }
+
+
     protected void onCreateMain() {
     }
 
@@ -280,6 +391,12 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected Hashtable getFormState(Form f) {
         Hashtable h = super.getFormState(f);
+        if("SetupDialog".equals(f.getName())) {
+            getStateSetupDialog(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
         if("Main".equals(f.getName())) {
             getStateMain(f, h);
             aboutToShowThisContainer = null;
@@ -296,6 +413,10 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
+    protected void getStateSetupDialog(Form f, Hashtable h) {
+    }
+
+
     protected void getStateMain(Form f, Hashtable h) {
     }
 
@@ -305,6 +426,12 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void setFormState(Form f, Hashtable state) {
         super.setFormState(f, state);
+        if("SetupDialog".equals(f.getName())) {
+            setStateSetupDialog(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("Main".equals(f.getName())) {
             setStateMain(f, state);
             aboutToShowThisContainer = null;
@@ -318,6 +445,10 @@ public abstract class StateMachineBase extends UIBuilder {
         }
 
             return;
+    }
+
+
+    protected void setStateSetupDialog(Form f, Hashtable state) {
     }
 
 
@@ -356,6 +487,16 @@ public abstract class StateMachineBase extends UIBuilder {
             c = c.getParent().getLeadParent();
         }
         if(rootContainerName == null) return;
+        if(rootContainerName.equals("SetupDialog")) {
+            if("demoCheckBox".equals(c.getName())) {
+                onSetupDialog_DemoCheckBoxAction(c, event);
+                return;
+            }
+            if("okButton".equals(c.getName())) {
+                onSetupDialog_OkButtonAction(c, event);
+                return;
+            }
+        }
         if(rootContainerName.equals("Main")) {
             if("MultiList".equals(c.getName())) {
                 onMain_MultiListAction(c, event);
@@ -369,6 +510,12 @@ public abstract class StateMachineBase extends UIBuilder {
             }
         }
     }
+
+      protected void onSetupDialog_DemoCheckBoxAction(Component c, ActionEvent event) {
+      }
+
+      protected void onSetupDialog_OkButtonAction(Component c, ActionEvent event) {
+      }
 
       protected void onMain_MultiListAction(Component c, ActionEvent event) {
       }

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Dialog" name="SetupDialog" cloudDestinationProperty="SetupDialog" layout="BoxLayout" boxLayoutAxis="Y" >
+  <component type="CheckBox" name="demoCheckBox" cloudDestinationProperty="CheckBox" text="Run In Demo Mode" >
+  </component>
+  <component type="Button" name="okButton" cloudDestinationProperty="okButton" commandName="OK" commandId="3" commandAction="$Back" commandBack="false" text="OK" >
+  </component>
+</component>

@@ -20,7 +20,6 @@ import com.instras.dataviewqr.model.XYData;
 import com.instras.dataviewqr.utils.XYDataParser;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -30,9 +29,12 @@ import java.util.Map;
  * @author Your name here
  */
 public class StateMachine extends StateMachineBase {
-    
+
     private LinkedHashMap<String, XYData> historyList;
+    private ArrayList<XYData> mergeList;
+
     private XYDataParser parser;
+    private boolean demoMode;
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -47,7 +49,9 @@ public class StateMachine extends StateMachineBase {
     @Override
     protected void initVars(Resources res) {
         historyList = new LinkedHashMap<String, XYData>();
+        mergeList = new ArrayList<XYData>();
         parser = new XYDataParser();
+        demoMode = false;
     }
 
     @Override
@@ -55,13 +59,23 @@ public class StateMachine extends StateMachineBase {
         MultiList cmp = (MultiList) c;
         Map<String, Object> item = (Map<String, Object>) (cmp.getSelectedItem());
         String scanName = item.get("Line1").toString();
-        displayChart(scanName, null);
+        
+        if(!mergeList.isEmpty()) {
+            XYData xyData = parser.mergeXYData(scanName, mergeList);
+            displayChart(scanName, xyData);
+            
+            historyList.put(xyData.getDate().toString(), xyData);
+            mergeList = new ArrayList<XYData>();
+        } else {
+            displayChart(scanName, null);
+        }
     }
-    
+
     /**
      * Get the proper chart to display
+     *
      * @param scanName
-     * @param xyData 
+     * @param xyData
      */
     private void displayChart(String scanName, XYData xyData) {
         if (scanName.equals("Scan XY Data")) {
@@ -79,8 +93,12 @@ public class StateMachine extends StateMachineBase {
         } else if (scanName.equals("Scan Acid Dissociation Data")) {
             AcidDissociationChart acidDissociationChart = new AcidDissociationChart();
             getXYDataFromQRCode(scanName, "acid_dissociation.tsv", acidDissociationChart, xyData);
+        } else if (scanName.equals("Scan QRCode+")) {
+            getXYDataFromQRCode(scanName, "qrcode", null, xyData);
         } else if (scanName.equals("History")) {
             showForm("HistoryForm", null);
+        } else if (scanName.equals("Setup")) {
+            showForm("SetupDialog", null);
         } else if (scanName.equals("Exit")) {
             Display.getInstance().exitApplication();
         } else {
@@ -103,25 +121,35 @@ public class StateMachine extends StateMachineBase {
             }
         };
 
-        if(storedData != null) {
+        if (storedData != null) {
             Form form = dataViewChart.getChart(storedData);
             form.setBackCommand(back);
             form.show();
-        } else if (CodeScanner.getInstance() != null) {
+        } else if (CodeScanner.getInstance() != null && !demoMode) {
             CodeScanner.getInstance().scanQRCode(new ScanResult() {
                 public void scanCompleted(String contents, String formatName, byte[] rawBytes) {
                     XYData xyData = new XYData();
                     xyData.setScanName(scanName);
                     xyData.setXYdata(parser.parse(contents));
-                    historyList.put(xyData.getDate().toString(), xyData);
 
-                    Form form = dataViewChart.getChart(xyData);
-                    form.setBackCommand(back);
-                    form.show();
+                    if (dataViewChart != null) {
+                        historyList.put(xyData.getDate().toString(), xyData);
+
+                        Form form = dataViewChart.getChart(xyData);
+                        form.setBackCommand(back);
+                        form.show();
+                    } else {
+                        // store this data for eventual merging
+                        mergeList.add(xyData);
+                    }
                 }
 
                 public void scanCanceled() {
-                    Dialog.show("QRData Csncelled", " Scan canceled", "OK", null);
+                    if (!mergeList.isEmpty()) {
+                        Dialog.show("QRCode+ Done", "Finish Scanning " + mergeList.size() + " QR Codes", "OK", null);
+                    } else {
+                        Dialog.show("Scan Cancelled", " Scan QRData cancelled: " + mergeList.size(), "OK", null);
+                    }
                 }
 
                 public void scanError(int errorCode, String message) {
@@ -131,22 +159,41 @@ public class StateMachine extends StateMachineBase {
         } else {
             // this else is for testing in the desktop environmments
             System.out.println("No QRCode Scanner .. loading dummy data");
-            InputStream inputStream = fetchResourceFile().getData(sampleData);
-            
-            XYData xyData = new XYData();
-            xyData.setScanName(scanName);
-            xyData.setXYdata(parser.parse(inputStream));
-            historyList.put(xyData.getDate().toString(), xyData);
-            
-            Form form = dataViewChart.getChart(xyData);
-            form.setBackCommand(back);
-            form.show();
+
+            InputStream inputStream;
+            XYData xyData;
+
+            if (dataViewChart != null) {
+                inputStream = fetchResourceFile().getData(sampleData);
+                xyData = new XYData();
+                xyData.setScanName(scanName);
+                xyData.setXYdata(parser.parse(inputStream));
+                historyList.put(xyData.getDate().toString(), xyData);
+
+                Form form = dataViewChart.getChart(xyData);
+                form.setBackCommand(back);
+                form.show();
+            } else {
+                String[] tsvFiles = {"qrcode01.tsv", "qrcode02.tsv"};
+                for (String tsv : tsvFiles) {
+                    inputStream = fetchResourceFile().getData(tsv);
+                    xyData = new XYData();
+                    xyData.setScanName(scanName);
+                    xyData.setXYdata(parser.parse(inputStream));
+                    mergeList.add(xyData);
+                }
+
+                // show dialog alerting user that data loaded
+                Dialog.show("QRCode+ Done", "Finish Scanning " + mergeList.size() + " QR Codes", "OK", null);
+            }
         }
     }
-    
+
     /**
-     * Override the base method to allow the loading stored data in the history list
-     * @param form 
+     * Override the base method to allow the loading stored data in the history
+     * list
+     *
+     * @param form
      */
     @Override
     protected void beforeShow(Form form) {
@@ -155,25 +202,29 @@ public class StateMachine extends StateMachineBase {
         if (form.getName().equals("HistoryForm")) {
             MultiList multiList = (MultiList) findHistoryMultiList(form);
             DefaultListModel listModel = new DefaultListModel();
-            
+
             // get the default list model
             HashMap<String, String> map;
-            
-            for(XYData xyData: historyList.values()) {
+
+            for (XYData xyData : historyList.values()) {
                 map = new HashMap<String, String>();
                 map.put("Line1", xyData.getScanName());
-                map.put("Line2", xyData.getDate().toString());   
+                map.put("Line2", xyData.getDate().toString());
                 listModel.addItem(map);
             }
-            
+
             multiList.setModel(listModel);
+        } else if (form.getName().equals("SetupDialog")) {
+            CheckBox cb = findDemoCheckBox(form);
+            cb.setSelected(demoMode);
         }
     }
-    
+
     /**
      * Display the data stored in the history
+     *
      * @param c
-     * @param event 
+     * @param event
      */
     @Override
     protected void onHistoryForm_HistoryMultiListAction(Component c, ActionEvent event) {
@@ -181,8 +232,19 @@ public class StateMachine extends StateMachineBase {
         Map<String, Object> item = (Map<String, Object>) (cmp.getSelectedItem());
         String scanName = item.get("Line1").toString();
         String dateTime = item.get("Line2").toString();
-        
+
         XYData xyData = historyList.get(dateTime);
         displayChart(scanName, xyData);
+    }
+
+    /**
+     * This just sets the application in demo mode
+     *
+     * @param c
+     * @param event
+     */
+    @Override
+    protected void onSetupDialog_DemoCheckBoxAction(Component c, ActionEvent event) {
+        demoMode = ((CheckBox) c).isSelected();
     }
 }
