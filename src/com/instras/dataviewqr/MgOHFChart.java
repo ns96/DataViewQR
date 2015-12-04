@@ -109,7 +109,7 @@ public class MgOHFChart extends DataViewChart {
         String[][] data = new String[15][header.length];
         
         // first diplay the data that was read in
-        String[] dataName = {"Mol HCl", "Vol HCl", "T2", "T1", "Mass Mg*"};
+        String[] dataName = {"Vol HCl", "T2", "T1", "Mass Mg*"};
         int i;
         for (i = 0; i < dataName.length; i++) {
             data[i][0] = dataName[i];
@@ -122,19 +122,19 @@ public class MgOHFChart extends DataViewChart {
         
         // calculate the temp difference
         data[i][0] = "T2 - T1";
-        double r1T = Double.parseDouble(xydata[3][0]) - Double.parseDouble(xydata[4][0]);
+        double r1T = Double.parseDouble(xydata[2][0]) - Double.parseDouble(xydata[3][0]);
         data[i][1] = formatScientificNumber(r1T, 2);
         
-        double r2T = Double.parseDouble(xydata[3][1]) - Double.parseDouble(xydata[4][1]);
+        double r2T = Double.parseDouble(xydata[2][1]) - Double.parseDouble(xydata[3][1]);
         data[i][2] = formatScientificNumber(r2T, 2);        
         
         // calculate the q
         i++;
         data[i][0] = "Heat (q)";
-        double r1Q = (4.18*r1T*(Double.parseDouble(xydata[2][0]) + Double.parseDouble(xydata[5][0])))/1000;
+        double r1Q = (4.18*r1T*(Double.parseDouble(xydata[1][0]) + Double.parseDouble(xydata[4][0])))/1000;
         data[i][1] = formatScientificNumber(r1Q, 2);
         
-        double r2Q = (4.18*r2T*(Double.parseDouble(xydata[2][1]) + Double.parseDouble(xydata[5][1])))/1000;
+        double r2Q = (4.18*r2T*(Double.parseDouble(xydata[1][1]) + Double.parseDouble(xydata[4][1])))/1000;
         data[i][2] = formatScientificNumber(r2Q, 2);
         
         // calculate the delta H
@@ -149,13 +149,13 @@ public class MgOHFChart extends DataViewChart {
         // calculate the moles of solids
         i++;
         data[i][0] = "Moles Mg*";
-        double r1M = Double.parseDouble(xydata[5][0])/40.3044; // Mg0
-        data[i][1] = formatScientificNumber(r1M, 2);
+        double r1M = Double.parseDouble(xydata[4][0])/40.3044; // Mg0
+        data[i][1] = formatScientificNumber(r1M, 4);
         
-        double r2M = Double.parseDouble(xydata[5][1])/24.305; // Mg solid
-        data[i][2] = formatScientificNumber(r2M, 2);
+        double r2M = Double.parseDouble(xydata[4][1])/24.305; // Mg solid
+        data[i][2] = formatScientificNumber(r2M, 4);
         
-        // calcuate the dleta H devided by models
+        // calcuate the delta H devided by moles
         i++;
         data[i][0] = "KJ/mole";
         double r1HM = r1H/r1M; // Mg0
@@ -164,6 +164,33 @@ public class MgOHFChart extends DataViewChart {
         double r2HM = r2H/r2M; // Mg solid
         data[i][2] = formatScientificNumber(r2HM, 2);
         
+        /* calculate the heat of formation by combinind the three equations in the order below
+        Mg(s) + ½ O2(g) -> MgO(s) (eq 4)
+        
+        MgCl2(aq) + H2O(l) -> MgO(s) + 2 HCl(aq) (r1 1)
+        Mg(s) + 2 HCl(aq) -> MgCl2(aq) + H2(g)   (r2 2)
+        H2(g) + ½ O2(g) -> H2O(l)                (r3 3)
+        */
+        i++;
+        data[i][0] = " "; // add space
+        
+        i++;
+        double dHF = -1*r1HM + r2HM + -285.8;
+        data[i][0] = "delta H (exp)";
+        data[i][1] = formatScientificNumber(dHF, 2);
+        
+        i++;
+        double dHFA = -601.24; // NIST data 
+        data[i][0] = "delta H (act)";
+        data[i][1] = formatScientificNumber(dHFA, 2);
+        
+        // calculate the percent error
+        i++;
+        double pError = Math.abs(((dHF - dHFA)/dHFA)*100);
+        data[i][0] = "% Error";
+        data[i][1] = formatScientificNumber(pError, 2);
+        
+        // now create the table
         DefaultTableModel tableModel = new DefaultTableModel(header, data);
 
         Table table = new Table(tableModel);
@@ -184,10 +211,10 @@ public class MgOHFChart extends DataViewChart {
         List<double[]> dataList = new ArrayList<double[]>();
 
         // add T1 and T2 data for reaction 1
-        dataList.add(new double[]{Double.parseDouble(xydata[4][0]), Double.parseDouble(xydata[3][0])});
+        dataList.add(new double[]{Double.parseDouble(xydata[3][0]), Double.parseDouble(xydata[2][0])});
 
         // add T1 and T2 data for reaction 2
-        dataList.add(new double[]{Double.parseDouble(xydata[4][1]), Double.parseDouble(xydata[3][1])});
+        dataList.add(new double[]{Double.parseDouble(xydata[3][1]), Double.parseDouble(xydata[2][1])});
 
         return dataList;
     }

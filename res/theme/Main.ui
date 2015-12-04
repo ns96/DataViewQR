@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.18 (11/25/2015)" >
+<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.19 (12/04/2015)" >
   <component type="MultiList" name="MultiList" cloudDestinationProperty="MultiList" >
     <layoutConstraint value="Center" />
     <mapItems>
@@ -29,7 +29,7 @@
     </mapItems>
     <mapItems>
       <stringItem key="Line2" value="Scan Data to Calculate MgO Enthalpy Heat of Formation" />
-      <stringItem key="Line1" value="Scan MgO Delta Hf Data" />
+      <stringItem key="Line1" value="Scan MgO Delta H Data" />
     </mapItems>
     <mapItems>
       <stringItem key="Line2" value="Scan Multiple QRCodes and Merge X,Y Data" />

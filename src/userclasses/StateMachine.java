@@ -96,7 +96,7 @@ public class StateMachine extends StateMachineBase {
             getXYDataFromQRCode(scanName, "acid_dissociation.tsv", acidDissociationChart, xyData);
         } else if (scanName.equals("Scan QRCode+")) {
             getXYDataFromQRCode(scanName, "qrcode", null, xyData);
-        } else if (scanName.equals("Scan MgO Delta Hf Data")) {
+        } else if (scanName.equals("Scan MgO Delta H Data")) {
             MgOHFChart mgoHFChart = new MgOHFChart();
             getXYDataFromQRCode(scanName, "mgo.tsv", mgoHFChart, xyData);
         } else if (scanName.equals("History")) {
