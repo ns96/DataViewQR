@@ -13,6 +13,7 @@ import com.codename1.ui.list.MultiList;
 import com.codename1.ui.util.Resources;
 import com.instras.dataviewqr.AcidDissociationChart;
 import com.instras.dataviewqr.DataViewChart;
+import com.instras.dataviewqr.MgOHFChart;
 import com.instras.dataviewqr.SpectroscopyChart;
 import com.instras.dataviewqr.TitrationChart;
 import com.instras.dataviewqr.XYDataChart;
@@ -95,6 +96,9 @@ public class StateMachine extends StateMachineBase {
             getXYDataFromQRCode(scanName, "acid_dissociation.tsv", acidDissociationChart, xyData);
         } else if (scanName.equals("Scan QRCode+")) {
             getXYDataFromQRCode(scanName, "qrcode", null, xyData);
+        } else if (scanName.equals("Scan MgO Delta Hf Data")) {
+            MgOHFChart mgoHFChart = new MgOHFChart();
+            getXYDataFromQRCode(scanName, "mgo.tsv", mgoHFChart, xyData);
         } else if (scanName.equals("History")) {
             showForm("HistoryForm", null);
         } else if (scanName.equals("Setup")) {

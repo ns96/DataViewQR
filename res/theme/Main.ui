@@ -28,6 +28,10 @@
       <stringItem key="Line1" value="Scan Acid Dissociation Data" />
     </mapItems>
     <mapItems>
+      <stringItem key="Line2" value="Scan Data to Calculate MgO Enthalpy Heat of Formation" />
+      <stringItem key="Line1" value="Scan MgO Delta Hf Data" />
+    </mapItems>
+    <mapItems>
       <stringItem key="Line2" value="Scan Multiple QRCodes and Merge X,Y Data" />
       <stringItem key="Line1" value="Scan QRCode+" />
     </mapItems>

@@ -6,6 +6,7 @@
     <data name="emission.tsv" />
     <ui name="HistoryForm" />
     <ui name="Main" />
+    <data name="mgo.tsv" />
     <data name="qrcode01.tsv" />
     <data name="qrcode02.tsv" />
     <ui name="SetupDialog" />

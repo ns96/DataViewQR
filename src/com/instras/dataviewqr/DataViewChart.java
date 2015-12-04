@@ -5,6 +5,7 @@
  */
 package com.instras.dataviewqr;
 
+import com.codename1.charts.models.CategorySeries;
 import com.codename1.charts.models.XYMultipleSeriesDataset;
 import com.codename1.charts.models.XYSeries;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
@@ -102,6 +103,52 @@ public abstract class DataViewChart {
         renderer.setFillPoints(true);
         renderer.setLineWidth(8f);
         return renderer;
+    }
+
+    /**
+     * Builds a bar multiple series renderer to use the provided colors.
+     *
+     * @param colors the series renderers colors
+     * @return the bar multiple series renderer
+     */
+    protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
+        XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+        renderer.setAxisTitleTextSize(16);
+        renderer.setChartTitleTextSize(20);
+        renderer.setLabelsTextSize(15);
+        renderer.setLegendTextSize(15);
+
+        int length = colors.length;
+
+        for (int i = 0; i < length; i++) {
+            XYSeriesRenderer r = new XYSeriesRenderer();
+            r.setColor(colors[i]);
+            renderer.addSeriesRenderer(r);
+        }
+
+        return renderer;
+    }
+
+    /**
+     * Builds a bar multiple series dataset using the provided values.
+     *
+     * @param titles the series titles
+     * @param values the values
+     * @return the XY multiple bar dataset
+     */
+    protected XYMultipleSeriesDataset buildBarDataset(String[] titles, List<double[]> values) {
+        XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+        int length = titles.length;
+        for (int i = 0; i < length; i++) {
+            CategorySeries series = new CategorySeries(titles[i]);
+            double[] v = values.get(i);
+            int seriesLength = v.length;
+            for (int k = 0; k < seriesLength; k++) {
+                series.add(v[k]);
+            }
+            dataset.addSeries(series.toXYSeries());
+        }
+        return dataset;
     }
 
     /**
@@ -219,12 +266,13 @@ public abstract class DataViewChart {
 
         return part1 + part2;
     }
-    
+
     /**
      * This is used to round a double to certain number of decimal places
+     *
      * @param valueToRound
      * @param numberOfDecimalPlaces
-     * @return 
+     * @return
      */
     protected double round(double valueToRound, int numberOfDecimalPlaces) {
         double multipicationFactor = MathUtil.pow(10, numberOfDecimalPlaces);
