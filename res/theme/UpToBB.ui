@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="UpToBB" cloudDestinationProperty="UpToBB" layout="BoxLayout" boxLayoutAxis="Y" title="Post Answer" >
+  <component type="TextField" name="TextField" cloudBoundProperty="text" cloudDestinationProperty="TextField" text="Type Answer" >
+  </component>
+  <component type="Button" name="captureButton" cloudDestinationProperty="captureButton" text="Capture" >
+  </component>
+  <component type="Label" name="imageLabel" cloudDestinationProperty="imageLabel" text="Image Label" >
+  </component>
+  <component type="Button" name="postButton" cloudDestinationProperty="postButton" text="Post It" >
+  </component>
+</component>

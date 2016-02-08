@@ -10,9 +10,11 @@
     <data name="qrcode01.tsv" />
     <data name="qrcode02.tsv" />
     <ui name="SetupDialog" />
+    <data name="solubility.tsv" />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
     </theme>
     <data name="titration.tsv" />
+    <ui name="UpToBB" />
     <data name="xydata.tsv" />
 </resource>

@@ -3,8 +3,10 @@
  */
 package userclasses;
 
+import com.codename1.capture.Capture;
 import com.codename1.codescan.CodeScanner;
 import com.codename1.codescan.ScanResult;
+import com.codename1.io.Log;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
@@ -14,11 +16,13 @@ import com.codename1.ui.util.Resources;
 import com.instras.dataviewqr.AcidDissociationChart;
 import com.instras.dataviewqr.DataViewChart;
 import com.instras.dataviewqr.MgOHFChart;
+import com.instras.dataviewqr.SolubilityChart;
 import com.instras.dataviewqr.SpectroscopyChart;
 import com.instras.dataviewqr.TitrationChart;
 import com.instras.dataviewqr.XYDataChart;
 import com.instras.dataviewqr.model.XYData;
 import com.instras.dataviewqr.utils.XYDataParser;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -88,6 +92,9 @@ public class StateMachine extends StateMachineBase {
         } else if (scanName.equals("Scan Emission Data")) {
             SpectroscopyChart spectroscopyChart = new SpectroscopyChart();
             getXYDataFromQRCode(scanName, "emission.tsv", spectroscopyChart, xyData);
+        } else if (scanName.equals("Scan Solubility Data")) {
+            SolubilityChart solubilityChart = new SolubilityChart();
+            getXYDataFromQRCode(scanName, "solubility.tsv", solubilityChart, xyData);
         } else if (scanName.equals("Scan Titration Data")) {
             TitrationChart titrationChart = new TitrationChart();
             getXYDataFromQRCode(scanName, "titration.tsv", titrationChart, xyData);
@@ -99,7 +106,9 @@ public class StateMachine extends StateMachineBase {
         } else if (scanName.equals("Scan MgO Delta H Data")) {
             MgOHFChart mgoHFChart = new MgOHFChart();
             getXYDataFromQRCode(scanName, "mgo.tsv", mgoHFChart, xyData);
-        } else if (scanName.equals("History")) {
+        } else if (scanName.equals("Post Answer")) {
+            showForm("UpToBB", null);
+        } else if (scanName.equals("")) {
             showForm("HistoryForm", null);
         } else if (scanName.equals("Setup")) {
             showForm("SetupDialog", null);
@@ -250,5 +259,28 @@ public class StateMachine extends StateMachineBase {
     @Override
     protected void onSetupDialog_DemoCheckBoxAction(Component c, ActionEvent event) {
         demoMode = ((CheckBox) c).isSelected();
+    }
+
+    @Override
+    protected void onUpToBB_CaptureButtonAction(Component c, ActionEvent event) {
+        String filename = Capture.capturePhoto(Display.getInstance().getDisplayWidth(), -1);
+        if(filename != null) {
+            try {
+                Form form = c.getComponentForm();
+                Image image = Image.createImage(filename);
+                Label imageLabel = findImageLabel(form);
+                imageLabel.setIcon(image);
+                form.revalidate();
+            } catch (IOException ex) {
+                Log.e(ex);
+            }
+        }
+    
+    }
+
+    @Override
+    protected void onUpToBB_PostButtonAction(Component c, ActionEvent event) {
+        // show dialog alerting user that data loaded
+        Dialog.show("Answer Posted", "Finish Uploading Answer", "OK", null);
     }
 }

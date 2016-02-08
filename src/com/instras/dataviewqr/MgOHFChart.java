@@ -8,8 +8,6 @@ import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
 import com.codename1.charts.renderers.XYSeriesRenderer;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.charts.views.BarChart;
-import com.codename1.charts.views.PointStyle;
-import com.codename1.charts.views.ScatterChart;
 import com.codename1.ui.Component;
 import com.codename1.ui.Form;
 import com.codename1.ui.table.DefaultTableModel;
@@ -56,21 +54,21 @@ public class MgOHFChart extends DataViewChart {
      */
     private Component getBarChart(String[][] xydata) {
         List<double[]> dataList = getTemperatureList(xydata);
-        double xmin = 0.5;
-        double xmax = 2.5;
+        double xmin = 0;
+        double xmax = 3;
         double ymin = 0;
-        double ymax = 100;
+        double ymax = getMaxTemp(dataList);
 
         // construct the chart renderer
         int[] colors = new int[]{ColorUtil.CYAN, ColorUtil.BLUE};
         XYMultipleSeriesRenderer renderer = buildBarRenderer(colors);
-        renderer.setOrientation(XYMultipleSeriesRenderer.Orientation.VERTICAL);
+        //renderer.setOrientation(XYMultipleSeriesRenderer.Orientation.VERTICAL);
 
         setChartSettings(renderer, "", "", "Temperature", xmin, xmax, ymin, ymax,
                 ColorUtil.LTGRAY, ColorUtil.LTGRAY);
 
-        renderer.setXLabels(1);
-        renderer.setYLabels(2);
+        renderer.setXLabels(2);
+        renderer.setYLabels(4);
         renderer.addXTextLabel(1, "T1");
         renderer.addXTextLabel(2, "T2");
 
@@ -217,5 +215,20 @@ public class MgOHFChart extends DataViewChart {
         dataList.add(new double[]{Double.parseDouble(xydata[3][1]), Double.parseDouble(xydata[2][1])});
 
         return dataList;
+    }
+    
+    /**
+     * Return the maximum temperature
+     * 
+     * @param dataList
+     * @return 
+     */
+    private double getMaxTemp(List<double[]> dataList) {
+        double[] r1data = dataList.get(0);
+        double[] r2data = dataList.get(1);
+        
+        double maxTemp = Math.max(r1data[1], r2data[1]) + 2;
+        
+        return maxTemp;
     }
 }

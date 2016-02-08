@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="Main" cloudDestinationProperty="Main" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.19 (12/04/2015)" >
+<component type="Form" name="Main" cloudDestinationProperty="Main" rtl="true" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.22 (02/04/2016)" >
   <component type="MultiList" name="MultiList" cloudDestinationProperty="MultiList" >
     <layoutConstraint value="Center" />
     <mapItems>
@@ -14,6 +14,10 @@
     <mapItems>
       <stringItem key="Line2" value="Scan Emission Spectrocopy Data" />
       <stringItem key="Line1" value="Scan Emission Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Scan Solubilty Data For Salts" />
+      <stringItem key="Line1" value="Scan Solubility Data" />
     </mapItems>
     <mapItems>
       <stringItem key="Line2" value="Scan Time Based Data For Reaction Rate Calculation" />
@@ -34,6 +38,10 @@
     <mapItems>
       <stringItem key="Line2" value="Scan Multiple QRCodes and Merge X,Y Data" />
       <stringItem key="Line1" value="Scan QRCode+" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Post picture or text of answer" />
+      <stringItem key="Line1" value="Post Answer" />
     </mapItems>
     <mapItems>
       <stringItem key="Line2" value="Load Past Data Files" />

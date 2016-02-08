@@ -36,8 +36,10 @@ public abstract class StateMachineBase extends UIBuilder {
         UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
-        UIBuilder.registerCustomComponent("MultiList", com.codename1.ui.list.MultiList.class);
+        UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
         UIBuilder.registerCustomComponent("Dialog", com.codename1.ui.Dialog.class);
+        UIBuilder.registerCustomComponent("MultiList", com.codename1.ui.list.MultiList.class);
+        UIBuilder.registerCustomComponent("TextField", com.codename1.ui.TextField.class);
         if(loadTheme) {
             if(res == null) {
                 try {
@@ -75,8 +77,10 @@ public abstract class StateMachineBase extends UIBuilder {
         UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
-        UIBuilder.registerCustomComponent("MultiList", com.codename1.ui.list.MultiList.class);
+        UIBuilder.registerCustomComponent("Label", com.codename1.ui.Label.class);
         UIBuilder.registerCustomComponent("Dialog", com.codename1.ui.Dialog.class);
+        UIBuilder.registerCustomComponent("MultiList", com.codename1.ui.list.MultiList.class);
+        UIBuilder.registerCustomComponent("TextField", com.codename1.ui.TextField.class);
         if(loadTheme) {
             if(res == null) {
                 try {
@@ -126,6 +130,18 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.ui.Label findImageLabel(Component root) {
+        return (com.codename1.ui.Label)findByName("imageLabel", root);
+    }
+
+    public com.codename1.ui.Label findImageLabel() {
+        com.codename1.ui.Label cmp = (com.codename1.ui.Label)findByName("imageLabel", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Label)findByName("imageLabel", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.list.MultiList findMultiList(Component root) {
         return (com.codename1.ui.list.MultiList)findByName("MultiList", root);
     }
@@ -146,6 +162,42 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.CheckBox cmp = (com.codename1.ui.CheckBox)findByName("demoCheckBox", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.CheckBox)findByName("demoCheckBox", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findPostButton(Component root) {
+        return (com.codename1.ui.Button)findByName("postButton", root);
+    }
+
+    public com.codename1.ui.Button findPostButton() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("postButton", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("postButton", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findCaptureButton(Component root) {
+        return (com.codename1.ui.Button)findByName("captureButton", root);
+    }
+
+    public com.codename1.ui.Button findCaptureButton() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("captureButton", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("captureButton", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.TextField findTextField(Component root) {
+        return (com.codename1.ui.TextField)findByName("TextField", root);
+    }
+
+    public com.codename1.ui.TextField findTextField() {
+        com.codename1.ui.TextField cmp = (com.codename1.ui.TextField)findByName("TextField", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.TextField)findByName("TextField", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -184,6 +236,12 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void exitForm(Form f) {
+        if("HistoryForm".equals(f.getName())) {
+            exitHistoryForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("SetupDialog".equals(f.getName())) {
             exitSetupDialog(f);
             aboutToShowThisContainer = null;
@@ -196,13 +254,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-        if("HistoryForm".equals(f.getName())) {
-            exitHistoryForm(f);
+        if("UpToBB".equals(f.getName())) {
+            exitUpToBB(f);
             aboutToShowThisContainer = null;
             return;
         }
 
             return;
+    }
+
+
+    protected void exitHistoryForm(Form f) {
     }
 
 
@@ -214,11 +276,17 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void exitHistoryForm(Form f) {
+    protected void exitUpToBB(Form f) {
     }
 
     protected void beforeShow(Form f) {
     aboutToShowThisContainer = f;
+        if("HistoryForm".equals(f.getName())) {
+            beforeHistoryForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("SetupDialog".equals(f.getName())) {
             beforeSetupDialog(f);
             aboutToShowThisContainer = null;
@@ -231,13 +299,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-        if("HistoryForm".equals(f.getName())) {
-            beforeHistoryForm(f);
+        if("UpToBB".equals(f.getName())) {
+            beforeUpToBB(f);
             aboutToShowThisContainer = null;
             return;
         }
 
             return;
+    }
+
+
+    protected void beforeHistoryForm(Form f) {
     }
 
 
@@ -249,11 +321,17 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void beforeHistoryForm(Form f) {
+    protected void beforeUpToBB(Form f) {
     }
 
     protected void beforeShowContainer(Container c) {
         aboutToShowThisContainer = c;
+        if("HistoryForm".equals(c.getName())) {
+            beforeContainerHistoryForm(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("SetupDialog".equals(c.getName())) {
             beforeContainerSetupDialog(c);
             aboutToShowThisContainer = null;
@@ -266,13 +344,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-        if("HistoryForm".equals(c.getName())) {
-            beforeContainerHistoryForm(c);
+        if("UpToBB".equals(c.getName())) {
+            beforeContainerUpToBB(c);
             aboutToShowThisContainer = null;
             return;
         }
 
             return;
+    }
+
+
+    protected void beforeContainerHistoryForm(Container c) {
     }
 
 
@@ -284,10 +366,16 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void beforeContainerHistoryForm(Container c) {
+    protected void beforeContainerUpToBB(Container c) {
     }
 
     protected void postShow(Form f) {
+        if("HistoryForm".equals(f.getName())) {
+            postHistoryForm(f);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("SetupDialog".equals(f.getName())) {
             postSetupDialog(f);
             aboutToShowThisContainer = null;
@@ -300,13 +388,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-        if("HistoryForm".equals(f.getName())) {
-            postHistoryForm(f);
+        if("UpToBB".equals(f.getName())) {
+            postUpToBB(f);
             aboutToShowThisContainer = null;
             return;
         }
 
             return;
+    }
+
+
+    protected void postHistoryForm(Form f) {
     }
 
 
@@ -318,10 +410,16 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void postHistoryForm(Form f) {
+    protected void postUpToBB(Form f) {
     }
 
     protected void postShowContainer(Container c) {
+        if("HistoryForm".equals(c.getName())) {
+            postContainerHistoryForm(c);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("SetupDialog".equals(c.getName())) {
             postContainerSetupDialog(c);
             aboutToShowThisContainer = null;
@@ -334,13 +432,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-        if("HistoryForm".equals(c.getName())) {
-            postContainerHistoryForm(c);
+        if("UpToBB".equals(c.getName())) {
+            postContainerUpToBB(c);
             aboutToShowThisContainer = null;
             return;
         }
 
             return;
+    }
+
+
+    protected void postContainerHistoryForm(Container c) {
     }
 
 
@@ -352,10 +454,16 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void postContainerHistoryForm(Container c) {
+    protected void postContainerUpToBB(Container c) {
     }
 
     protected void onCreateRoot(String rootName) {
+        if("HistoryForm".equals(rootName)) {
+            onCreateHistoryForm();
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("SetupDialog".equals(rootName)) {
             onCreateSetupDialog();
             aboutToShowThisContainer = null;
@@ -368,13 +476,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-        if("HistoryForm".equals(rootName)) {
-            onCreateHistoryForm();
+        if("UpToBB".equals(rootName)) {
+            onCreateUpToBB();
             aboutToShowThisContainer = null;
             return;
         }
 
             return;
+    }
+
+
+    protected void onCreateHistoryForm() {
     }
 
 
@@ -386,11 +498,17 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void onCreateHistoryForm() {
+    protected void onCreateUpToBB() {
     }
 
     protected Hashtable getFormState(Form f) {
         Hashtable h = super.getFormState(f);
+        if("HistoryForm".equals(f.getName())) {
+            getStateHistoryForm(f, h);
+            aboutToShowThisContainer = null;
+            return h;
+        }
+
         if("SetupDialog".equals(f.getName())) {
             getStateSetupDialog(f, h);
             aboutToShowThisContainer = null;
@@ -403,13 +521,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return h;
         }
 
-        if("HistoryForm".equals(f.getName())) {
-            getStateHistoryForm(f, h);
+        if("UpToBB".equals(f.getName())) {
+            getStateUpToBB(f, h);
             aboutToShowThisContainer = null;
             return h;
         }
 
             return h;
+    }
+
+
+    protected void getStateHistoryForm(Form f, Hashtable h) {
     }
 
 
@@ -421,11 +543,17 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void getStateHistoryForm(Form f, Hashtable h) {
+    protected void getStateUpToBB(Form f, Hashtable h) {
     }
 
     protected void setFormState(Form f, Hashtable state) {
         super.setFormState(f, state);
+        if("HistoryForm".equals(f.getName())) {
+            setStateHistoryForm(f, state);
+            aboutToShowThisContainer = null;
+            return;
+        }
+
         if("SetupDialog".equals(f.getName())) {
             setStateSetupDialog(f, state);
             aboutToShowThisContainer = null;
@@ -438,13 +566,17 @@ public abstract class StateMachineBase extends UIBuilder {
             return;
         }
 
-        if("HistoryForm".equals(f.getName())) {
-            setStateHistoryForm(f, state);
+        if("UpToBB".equals(f.getName())) {
+            setStateUpToBB(f, state);
             aboutToShowThisContainer = null;
             return;
         }
 
             return;
+    }
+
+
+    protected void setStateHistoryForm(Form f, Hashtable state) {
     }
 
 
@@ -456,7 +588,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void setStateHistoryForm(Form f, Hashtable state) {
+    protected void setStateUpToBB(Form f, Hashtable state) {
     }
 
     protected boolean setListModel(List cmp) {
@@ -487,6 +619,12 @@ public abstract class StateMachineBase extends UIBuilder {
             c = c.getParent().getLeadParent();
         }
         if(rootContainerName == null) return;
+        if(rootContainerName.equals("HistoryForm")) {
+            if("historyMultiList".equals(c.getName())) {
+                onHistoryForm_HistoryMultiListAction(c, event);
+                return;
+            }
+        }
         if(rootContainerName.equals("SetupDialog")) {
             if("demoCheckBox".equals(c.getName())) {
                 onSetupDialog_DemoCheckBoxAction(c, event);
@@ -503,13 +641,24 @@ public abstract class StateMachineBase extends UIBuilder {
                 return;
             }
         }
-        if(rootContainerName.equals("HistoryForm")) {
-            if("historyMultiList".equals(c.getName())) {
-                onHistoryForm_HistoryMultiListAction(c, event);
+        if(rootContainerName.equals("UpToBB")) {
+            if("TextField".equals(c.getName())) {
+                onUpToBB_TextFieldAction(c, event);
+                return;
+            }
+            if("captureButton".equals(c.getName())) {
+                onUpToBB_CaptureButtonAction(c, event);
+                return;
+            }
+            if("postButton".equals(c.getName())) {
+                onUpToBB_PostButtonAction(c, event);
                 return;
             }
         }
     }
+
+      protected void onHistoryForm_HistoryMultiListAction(Component c, ActionEvent event) {
+      }
 
       protected void onSetupDialog_DemoCheckBoxAction(Component c, ActionEvent event) {
       }
@@ -520,7 +669,13 @@ public abstract class StateMachineBase extends UIBuilder {
       protected void onMain_MultiListAction(Component c, ActionEvent event) {
       }
 
-      protected void onHistoryForm_HistoryMultiListAction(Component c, ActionEvent event) {
+      protected void onUpToBB_TextFieldAction(Component c, ActionEvent event) {
+      }
+
+      protected void onUpToBB_CaptureButtonAction(Component c, ActionEvent event) {
+      }
+
+      protected void onUpToBB_PostButtonAction(Component c, ActionEvent event) {
       }
 
 }
