@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="Main" cloudDestinationProperty="Main" rtl="true" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.22 (02/04/2016)" >
+<component type="Form" name="Main" cloudDestinationProperty="Main" focusable="false" rtl="true" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.24 (02/10/2016)" >
   <component type="MultiList" name="MultiList" cloudDestinationProperty="MultiList" >
     <layoutConstraint value="Center" />
     <mapItems>
@@ -40,20 +40,8 @@
       <stringItem key="Line1" value="Scan QRCode+" />
     </mapItems>
     <mapItems>
-      <stringItem key="Line2" value="Post picture or text of answer" />
-      <stringItem key="Line1" value="Post Answer" />
-    </mapItems>
-    <mapItems>
       <stringItem key="Line2" value="Load Past Data Files" />
       <stringItem key="Line1" value="History" />
     </mapItems>
-    <mapItems>
-      <stringItem key="Line2" value="Configure Application Settings" />
-      <stringItem key="Line1" value="Setup" />
-    </mapItems>
-    <mapItems>
-      <stringItem key="Line2" value="Exit Application" />
-      <stringItem key="Line1" value="Exit" />
-    </mapItems>
   </component>
-</component>
+<command name="Post Answer" id="5" action="UpToBB" backCommand="false" /><command name="Setup" id="6" action="SetupDialog" backCommand="false" /><command name="Exit" id="7" action="$Exit" backCommand="false" /></component>

@@ -10,6 +10,7 @@ import com.codename1.charts.models.XYMultipleSeriesDataset;
 import com.codename1.charts.models.XYSeries;
 import com.codename1.charts.renderers.XYMultipleSeriesRenderer;
 import com.codename1.charts.renderers.XYSeriesRenderer;
+import com.codename1.charts.util.ColorUtil;
 import com.codename1.charts.views.PointStyle;
 import com.codename1.io.Util;
 import com.codename1.l10n.L10NManager;
@@ -75,11 +76,15 @@ public abstract class DataViewChart {
      */
     protected XYMultipleSeriesRenderer buildRenderer(int[] colors, PointStyle[] styles) {
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-        renderer.setAxisTitleTextSize(20);
-        renderer.setChartTitleTextSize(20);
-        renderer.setLabelsTextSize(20);
-        renderer.setLegendTextSize(20);
+        renderer.setAxisTitleTextSize(25);
+        renderer.setChartTitleTextSize(25);
+        renderer.setLabelsTextSize(25);
+        renderer.setLegendTextSize(25);
         renderer.setPointSize(10f);
+        
+        renderer.setBackgroundColor(ColorUtil.BLACK);
+        renderer.setApplyBackgroundColor(true);
+        
         renderer.setMargins(new int[]{20, 30, 15, 20});
 
         for (int i = 0; i < colors.length; i++) {
@@ -102,6 +107,7 @@ public abstract class DataViewChart {
         renderer.setPointStyle(style);
         renderer.setFillPoints(true);
         renderer.setLineWidth(8f);
+        
         return renderer;
     }
 
@@ -113,10 +119,13 @@ public abstract class DataViewChart {
      */
     protected XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-        renderer.setAxisTitleTextSize(16);
-        renderer.setChartTitleTextSize(20);
-        renderer.setLabelsTextSize(15);
-        renderer.setLegendTextSize(15);
+        renderer.setAxisTitleTextSize(25);
+        renderer.setChartTitleTextSize(25);
+        renderer.setLabelsTextSize(25);
+        renderer.setLegendTextSize(25);
+        
+        renderer.setBackgroundColor(ColorUtil.BLACK);
+        renderer.setApplyBackgroundColor(true);
 
         int length = colors.length;
 

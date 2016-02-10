@@ -214,7 +214,22 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public static final int COMMAND_MainPostAnswer = 5;
+    public static final int COMMAND_MainExit = 7;
+    public static final int COMMAND_MainSetup = 6;
     public static final int COMMAND_SetupDialogOK = 3;
+
+    protected boolean onMainPostAnswer() {
+        return false;
+    }
+
+    protected boolean onMainExit() {
+        return false;
+    }
+
+    protected boolean onMainSetup() {
+        return false;
+    }
 
     protected boolean onSetupDialogOK() {
         return false;
@@ -222,6 +237,27 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void processCommand(ActionEvent ev, Command cmd) {
         switch(cmd.getId()) {
+            case COMMAND_MainPostAnswer:
+                if(onMainPostAnswer()) {
+                    ev.consume();
+                    return;
+                }
+                break;
+
+            case COMMAND_MainExit:
+                if(onMainExit()) {
+                    ev.consume();
+                    return;
+                }
+                break;
+
+            case COMMAND_MainSetup:
+                if(onMainSetup()) {
+                    ev.consume();
+                    return;
+                }
+                break;
+
             case COMMAND_SetupDialogOK:
                 if(onSetupDialogOK()) {
                     ev.consume();

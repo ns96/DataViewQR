@@ -75,7 +75,7 @@ public class SolubilityChart extends DataViewChart {
         renderer.setYLabels(4);
         renderer.addXTextLabel(1, "Salts");
         renderer.setBarWidth(100f);
-
+        
         int length = renderer.getSeriesRendererCount();
         for (int i = 0; i < length; i++) {
             XYSeriesRenderer seriesRenderer = (XYSeriesRenderer) renderer.getSeriesRendererAt(i);

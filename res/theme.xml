@@ -12,6 +12,7 @@
     <ui name="SetupDialog" />
     <data name="solubility.tsv" />
     <theme name="Theme">
+        <val key="@commandBehavior" value="Side" />
         <val key="@includeNativeBool" value="true" />
     </theme>
     <data name="titration.tsv" />
