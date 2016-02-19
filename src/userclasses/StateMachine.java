@@ -19,6 +19,7 @@ import com.instras.dataviewqr.MgOHFChart;
 import com.instras.dataviewqr.SolubilityChart;
 import com.instras.dataviewqr.SpectroscopyChart;
 import com.instras.dataviewqr.TitrationChart;
+import com.instras.dataviewqr.WeightPercentSugarChart;
 import com.instras.dataviewqr.XYDataChart;
 import com.instras.dataviewqr.model.XYData;
 import com.instras.dataviewqr.utils.XYDataParser;
@@ -95,6 +96,9 @@ public class StateMachine extends StateMachineBase {
         } else if (scanName.equals("Scan Solubility Data")) {
             SolubilityChart solubilityChart = new SolubilityChart();
             getXYDataFromQRCode(scanName, "solubility.tsv", solubilityChart, xyData);
+        } else if (scanName.equals("Wt% Percent Sugar Data")) {
+            WeightPercentSugarChart weightPercentSugarChart = new WeightPercentSugarChart();
+            getXYDataFromQRCode(scanName, "wtpercent.tsv", weightPercentSugarChart, xyData);
         } else if (scanName.equals("Scan Titration Data")) {
             TitrationChart titrationChart = new TitrationChart();
             getXYDataFromQRCode(scanName, "titration.tsv", titrationChart, xyData);
