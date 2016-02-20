@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="Main" cloudDestinationProperty="Main" focusable="false" rtl="true" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.24 (02/10/2016)" >
+<component type="Form" name="Main" cloudDestinationProperty="Main" focusable="false" rtl="true" scrollableY="false" layout="BorderLayout" borderLayoutAbsoluteCenter="false" title="DataViewQR 0.1.27 (02/20/2016)" >
   <component type="MultiList" name="MultiList" cloudDestinationProperty="MultiList" >
     <layoutConstraint value="Center" />
     <mapItems>
@@ -18,6 +18,10 @@
     <mapItems>
       <stringItem key="Line2" value="Scan Solubilty Data For Salts" />
       <stringItem key="Line1" value="Scan Solubility Data" />
+    </mapItems>
+    <mapItems>
+      <stringItem key="Line2" value="Estimate Weight Percent of Soda Unsing Density " />
+      <stringItem key="Line1" value="Wt% Sugar Data" />
     </mapItems>
     <mapItems>
       <stringItem key="Line2" value="Scan Time Based Data For Reaction Rate Calculation" />

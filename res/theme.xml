@@ -17,5 +17,6 @@
     </theme>
     <data name="titration.tsv" />
     <ui name="UpToBB" />
+    <data name="wtpercent.tsv" />
     <data name="xydata.tsv" />
 </resource>
