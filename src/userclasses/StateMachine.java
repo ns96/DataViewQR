@@ -96,7 +96,7 @@ public class StateMachine extends StateMachineBase {
         } else if (scanName.equals("Scan Solubility Data")) {
             SolubilityChart solubilityChart = new SolubilityChart();
             getXYDataFromQRCode(scanName, "solubility.tsv", solubilityChart, xyData);
-        } else if (scanName.equals("Wt% Percent Sugar Data")) {
+        } else if (scanName.equals("Wt% Sugar Data")) {
             WeightPercentSugarChart weightPercentSugarChart = new WeightPercentSugarChart();
             getXYDataFromQRCode(scanName, "wtpercent.tsv", weightPercentSugarChart, xyData);
         } else if (scanName.equals("Scan Titration Data")) {
